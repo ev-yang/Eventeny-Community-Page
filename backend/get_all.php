@@ -2,11 +2,11 @@
 // Create database
 $db = new SQLite3('community.db');
 
-
 // Create table
 $db->exec("CREATE TABLE IF NOT EXISTS posts (
     id INTEGER,
     username TEXT,
+    title TEXT,
     content TEXT,
     topic TEXT,
     comments INTEGER DEFAULT 0,
@@ -28,6 +28,7 @@ if(!$results) {
       $post_data = array(
           "id" => $row["id"],
           "username" => $row["username"],
+          "title" => $row["title"],
           "content" => $row["content"],
           "topic" => $row["topic"],
           "comments" => $row["comments"],

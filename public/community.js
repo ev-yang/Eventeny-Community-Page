@@ -25,7 +25,14 @@
     displayPosts();
     id("new-btn").addEventListener("click", showNewPostView);
     id("home-btn").addEventListener("click", showHomeView);
-    id("cancel-btn").addEventListener("click", showHomeView);
+    id("cancel-btn").addEventListener("click", function(event) {
+      event.preventDefault();
+      showHomeView();
+    });
+    id("post-btn").addEventListener("click", function(event) {
+      event.preventDefault();
+      newPost();
+    });
   }
 
   async function displayPosts() {
@@ -61,6 +68,7 @@
     card.appendChild(image);
     card.appendChild(contents);
     card.appendChild(info);
+    card.addEventListener("click", showPostView);
     return card;
   }
 
@@ -76,20 +84,25 @@
     let topic = gen("p");
     topic.textContent = post["topic"];
     topic.classList.add("topic");
-    let content = gen("p");
-    content.textContent = post["content"];
-    content.classList.add("title");
+    let title = gen("h2");
+    title.textContent = post["title"];
+    title.classList.add("title");
     let individual = gen("p");
     individual.textContent = post["username"];
+    let content = gen("p");
+    content.textContent = post["content"];
+    content.classList.add("content");
+    content.classList.add("hidden");
     postContent.appendChild(topic);
-    postContent.appendChild(content);
+    postContent.appendChild(title);
     postContent.appendChild(individual);
+    postContent.appendChild(content);
     return postContent;
   }
 
   function postInformation(post) {
     let postInfo = gen("div");
-    postInfo.classList.add("meta");
+    postInfo.classList.add("trackers");
     let date = gen("p");
     date.textContent = new Date(post["date"]).toLocaleString();
 
@@ -132,23 +145,80 @@
   }
 
   /**
-   * Show home view
+   * Show home view.
    */
   function showHomeView() {
-    id("post").classList.add("hidden");
+    id("comments").innerHTML = "";
+    id("comments").classList.add("hidden");
     id("new").classList.add("hidden");
+    let posts = qsa(".card");
+    for (let post of posts) {
+      post.classList.remove("hidden");
+      post.querySelector(".content").classList.add("hidden");
+    }
     id("home").classList.remove("hidden");
   }
 
   /**
-   * Hide current screen, go to new post screen.
+   * Show new post screen.
    */
   function showNewPostView() {
     id("home").classList.add("hidden");
-    id("post").classList.add("hidden");
+    id("comments").innerHTML = "";
+    id("comments").classList.add("hidden");
     id("new").classList.remove("hidden");
   }
 
+  /**
+   * Show individual post and all of its comments.
+   */
+  function showPostView() {
+    // hide everything except clicked post
+    let posts = qsa(".card");
+    for (let post of posts) {
+      if (post.id !== this.id) {
+        this.querySelector(".content").classList.add("hidden");
+        post.classList.add("hidden");
+      }
+    }
+    this.querySelector(".content").classList.remove("hidden");
+
+    // display comments
+    // TODO: get comments from database
+    id("comments").classList.remove("hidden");
+  }
+
+  /**
+   * Add new post to database
+   */
+  function newPost() {
+    // Create object and set up request
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText);
+      }
+    };
+
+    // Get new post information
+    let topics = document.getElementsByName("topic");
+    let topic = "";
+    for (let option of topics) {
+      if (option.checked) {
+        topic = option.value;
+        break;
+      }
+    }
+    let queryString = "username=" + id("name").value +
+        "&title=" + id("post-title").value +
+        "&content=" + id("post-content").value +
+        "&topic=" + topic;
+
+    // Pass query information into server script for POST request
+    xhttp.open("POST", "../backend/new_post.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(queryString);
+  }
 
   // helper functions
   /**
