@@ -73,11 +73,15 @@
 
   function postContent(post) {
     let postContent = gen("div");
+    let topic = gen("p");
+    topic.textContent = post["topic"];
+    topic.classList.add("topic");
     let content = gen("p");
     content.textContent = post["content"];
     content.classList.add("title");
     let individual = gen("p");
     individual.textContent = post["username"];
+    postContent.appendChild(topic);
     postContent.appendChild(content);
     postContent.appendChild(individual);
     return postContent;

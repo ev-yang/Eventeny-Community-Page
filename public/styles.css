@@ -38,23 +38,37 @@ nav {
   justify-content: center;
 }
 
-nav button {
+button {
   margin: 10px;
+  padding: 10px;
+  outline: none;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
 }
 
-/* post card views */
-
-.card, .card div {
-  display: flex;
+#new-btn, #cancel-btn, #post-btn {
+  background-color: lavender;
 }
 
-.card {
+button:hover, #new-btn:hover, #cancel-btn:hover, #post-btn:hover {
+  background-color: aliceblue;
+}
+
+button, .card {
   cursor: pointer;
   background-color: #cae5ff;
   padding: 2.5vh;
   border-radius: 10px;
-  font-size: 16pt;
   margin: 1.5vh;
+}
+
+.card {
+  font-size: 16pt;
+}
+
+.card, .card div {
+  display: flex;
 }
 
 .card img {
@@ -85,6 +99,12 @@ nav button {
 .title {
   font-weight: bold;
   font-size: 24px;
+}
+
+.topic {
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
 }
 
 .meta {
