@@ -1,0 +1,76 @@
+<!--
+  Evelyn Yang
+  Eventeny Community Page
+  November 25, 2020
+
+  This is the community.html file for the Eventeny community page.
+  It contains the structure of the webpage, including post cards,
+  search/filtering options, and a new post page.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Eventeny</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="community.js"></script>
+  </head>
+  <body>
+    <header>
+      <div>
+        <img src="img/eventeny-logo.svg" alt="Eventeny logo">
+        <h1>Eventeny community page</h1>
+      </div>
+      <nav>
+        <button id="home-btn">Home</button>
+        <section class="topics">
+          <h2>Post topics:</h2>
+          <input type="checkbox" id="topic-question" value="question">
+          <label for="topic-question">Questions</label>
+          <input type="checkbox" id="topic-tips" value="tips">
+          <label for="topic-tips">Tips + resources</label>
+          <input type="checkbox" id="topic-planning" value="planning">
+          <label for="topic-planning">Planning</label>
+          <input type="checkbox" id="topic-misc" name="vehicle3" value="misc">
+          <label for="topic-misc">Miscellaneous</label>
+          <button>Filter by topic</button>
+        </section>
+        <input id="search-term" type="text">
+        <button id="search-btn" disabled>Search</button>
+        <button id="new-btn">New post</button>
+      </nav>
+    </header>
+    <main>
+      <!-- home view -->
+      <section id="home">
+      </section>
+
+      <!-- post view -->
+      <section id="post" class="hidden">
+      </section>
+
+      <!-- new post view -->
+      <section id="new" class="hidden">
+        <h2>New post:</h2>
+        <form>
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+          <label for="post-content">Post</label>
+          <input type="text" id="post-content" name="content" required>
+          <input type="checkbox" id="topic-question" value="question">
+          <label for="vehicle1">Questions</label>
+          <input type="checkbox" id="topic-tips" value="tips">
+          <label for="vehicle2">Tips + resources</label>
+          <input type="checkbox" id="topic-planning" value="planning">
+          <label for="vehicle3">Planning</label>
+          <input type="checkbox" id="topic-misc" name="vehicle3" value="misc">
+          <label for="vehicle3">Miscellaneous</label>
+          <button>Cancel</button>
+          <button>Post!</button>
+        </form>
+      </section>
+      <!-- error view -->
+      <h2 id="error" class="hidden"></h2>
+    </main>
+  </body>
+</html>

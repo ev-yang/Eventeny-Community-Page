@@ -1,0 +1,35 @@
+/*
+  Evelyn Yang
+  Eventeny Community Page
+  November 25, 2020
+
+  This is the styles file for the Eventeny community page.
+  It contains the visual aspects of the page, including colors choices,
+  font sizes, etc.
+*/
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 30px;
+  padding: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+header img {
+  height: 20px;
+  width: auto;
+}
+
+header h1, nav h2 {
+  display: inline;
+  color: #0173be;
+}
+
+nav {
+  display: flex;
+  margin: 30px;
+  justify-content: center;
+}
