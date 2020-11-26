@@ -4,7 +4,7 @@
   November 25, 2020
 
   This is the styles file for the Eventeny community page.
-  It contains the visual aspects of the page, including colors choices,
+  It defines the visual aspects of the page, including colors choices,
   font sizes, etc.
 */
 
@@ -18,12 +18,16 @@ body {
   display: none;
 }
 
+header {
+  text-align: center;
+}
+
 header img {
   height: 20px;
   width: auto;
 }
 
-header h1, nav h2 {
+header h1, nav p {
   display: inline;
   color: #0173be;
 }
@@ -32,4 +36,81 @@ nav {
   display: flex;
   margin: 30px;
   justify-content: center;
+}
+
+nav button {
+  margin: 10px;
+}
+
+/* post card views */
+
+.card, .card div {
+  display: flex;
+}
+
+.card {
+  cursor: pointer;
+  background-color: #cae5ff;
+  padding: 2.5vh;
+  border-radius: 10px;
+  font-size: 16pt;
+  margin: 1.5vh;
+}
+
+.card img {
+  padding: 1vh;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.card > img {
+  height: 14vh;
+  margin: 10px;
+}
+
+.card > div {
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 15px;
+}
+
+.card p {
+  margin: 0px;
+}
+
+.card:hover {
+  transform: scale(1.005);
+}
+
+.title {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.meta {
+  margin-left: auto;
+  padding-right: 10px;
+  font-size: 16px;
+  flex: 0 0 15%;
+}
+
+.meta div {
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.meta img {
+  height: 2vh;
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+.meta img:hover {
+  transform: scale(1.1);
+}
+
+h2 {
+  font-size: 20pt;
+  padding-left: 15px;
 }
