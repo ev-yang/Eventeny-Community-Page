@@ -9,7 +9,7 @@
 */
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto Mono', monospace;
   margin: 30px;
   padding: 20px;
 }
@@ -27,7 +27,7 @@ header img {
   width: auto;
 }
 
-header h1, nav p {
+header h1, nav h2 {
   display: inline;
   color: #0173be;
 }
@@ -36,6 +36,11 @@ nav {
   display: flex;
   margin: 30px;
   justify-content: center;
+  align-items: center;
+}
+
+nav h2 {
+  font-size: 18px;
 }
 
 button {
@@ -102,6 +107,10 @@ button, .card {
   padding: 0px;
 }
 
+.title:hover {
+  text-decoration: underline;
+}
+
 .topic {
   background-color: white;
   border-radius: 8px;
@@ -112,7 +121,7 @@ button, .card {
   margin-left: auto;
   padding-right: 10px;
   font-size: 16px;
-  flex: 0 0 15%;
+  flex: 0 0 13%;
 }
 
 .trackers div {
@@ -132,22 +141,27 @@ button, .card {
 }
 
 h2 {
-  font-size: 20pt;
+  font-size: 18pt;
   padding-left: 15px;
 }
 
 #new {
   display: flex;
   justify-content: center;
-  background-color: #cae5ff;
+  background-color: gainsboro;
   width: 70%;
+  padding-top: 30px;
   margin-left: auto;
   margin-right: auto;
   border-radius: 10px;
 }
 
-#new input {
-  width: 50%;
+#content input, #content textarea {
+  width: 100%;
   margin: 10px;
   padding: 20px;
+}
+
+#content textarea {
+  height: 80px;
 }

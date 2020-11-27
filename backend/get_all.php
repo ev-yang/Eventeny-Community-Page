@@ -1,5 +1,5 @@
 <?php
-// Create database
+// Get database
 $db = new SQLite3('community.db');
 
 // Create table

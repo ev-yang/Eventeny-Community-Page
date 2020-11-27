@@ -46,7 +46,7 @@
     return new Promise( function(resolve) {
       let xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
           resolve(this.responseText);
         }
       };
@@ -68,7 +68,6 @@
     card.appendChild(image);
     card.appendChild(contents);
     card.appendChild(info);
-    card.addEventListener("click", showPostView);
     return card;
   }
 
@@ -81,18 +80,28 @@
 
   function postContent(post) {
     let postContent = gen("div");
+
+    // topic
     let topic = gen("p");
     topic.textContent = post["topic"];
     topic.classList.add("topic");
+
+    // title
     let title = gen("h2");
     title.textContent = post["title"];
     title.classList.add("title");
+    title.addEventListener("click", showPostView);
+
+    // username
     let individual = gen("p");
     individual.textContent = post["username"];
+
+    // content
     let content = gen("p");
     content.textContent = post["content"];
     content.classList.add("content");
     content.classList.add("hidden");
+
     postContent.appendChild(topic);
     postContent.appendChild(title);
     postContent.appendChild(individual);
@@ -108,6 +117,7 @@
 
     // views
     let views = gen("div");
+    views.classList.add("views");
     let eye = gen("img");
     eye.src = "img/eye.png";
     eye.alt = "View icon";
@@ -121,7 +131,9 @@
     let heart = gen("img");
     heart.src = "img/heart.png";
     heart.alt = "Heart icon";
-    // heart.addEventListener("click", likeYip);
+    heart.addEventListener("click", function() {
+      incrementStats(likes, "likes");
+    });
     let numLikes = gen("p");
     numLikes.textContent = post["likes"];
     likes.appendChild(heart);
@@ -132,6 +144,9 @@
     let person = gen("img");
     person.src = "img/person.jpg";
     person.alt = "Follow icon";
+    person.addEventListener("click", function() {
+      incrementStats(follows, "follows");
+    });
     let numFollows = gen("p");
     numFollows.textContent = post["follows"];
     follows.appendChild(person);
@@ -151,6 +166,13 @@
     id("comments").innerHTML = "";
     id("comments").classList.add("hidden");
     id("new").classList.add("hidden");
+    id("name").value = "";
+    id("post-title").value = "";
+    id("post-content").value = "";
+    let topics = document.getElementsByName("topic");
+    for (let option of topics) {
+      option.checked = false;
+    }
     let posts = qsa(".card");
     for (let post of posts) {
       post.classList.remove("hidden");
@@ -176,12 +198,16 @@
     // hide everything except clicked post
     let posts = qsa(".card");
     for (let post of posts) {
-      if (post.id !== this.id) {
-        this.querySelector(".content").classList.add("hidden");
+      if (post.id !== this.parentElement.parentElement.id) {
+        post.parentElement.parentElement.querySelector(".content").classList.add("hidden");
         post.classList.add("hidden");
       }
     }
-    this.querySelector(".content").classList.remove("hidden");
+    this.parentElement.parentElement.querySelector(".content").classList.remove("hidden");
+
+    // increment views
+    let viewCounter = this.parentElement.parentElement.querySelector(".views");
+    incrementStats(viewCounter, "views");
 
     // display comments
     // TODO: get comments from database
@@ -189,33 +215,68 @@
   }
 
   /**
+   * Submit a new post. After a delay of 2 seconds, return to homepage.
+   */
+  async function newPost() {
+    let newPost = formatResults(await submitPost())[0];
+    id("home").prepend(generateCard(newPost));
+    setTimeout(showHomeView, 2000);
+  }
+
+  /**
    * Add new post to database
    */
-  function newPost() {
+  function submitPost() {
+    // add to database
+    return new Promise( function(resolve) {
+      // Create object and set up request
+      let xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+          resolve(this.responseText);
+        }
+      };
+
+      // Get new post information, build query string
+      let topics = document.getElementsByName("topic");
+      let topic = "";
+      for (let option of topics) {
+        if (option.checked) {
+          topic = option.value;
+          break;
+        }
+      }
+      let queryString = "username=" + id("name").value +
+          "&title=" + id("post-title").value +
+          "&content=" + id("post-content").value +
+          "&topic=" + topic;
+
+      // Pass query information into server script for POST request
+      xhttp.open("POST", "../backend/new_post.php", true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.send(queryString);
+    });
+  }
+
+  /**
+   * Increment the given stats on the post by one.
+   * @param {object} container - DOM object holding all stats
+   * @param {String} type - whether we are incrementing likes or follows
+   */
+  function incrementStats(container, type) {
+    // Increment text on page
+    let current = parseInt(container.querySelector("p").textContent);
+    let updated = (current + 1).toString();
+    container.querySelector("p").textContent = updated;
+
     // Create object and set up request
     let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        console.log(this.responseText);
-      }
-    };
-
-    // Get new post information
-    let topics = document.getElementsByName("topic");
-    let topic = "";
-    for (let option of topics) {
-      if (option.checked) {
-        topic = option.value;
-        break;
-      }
-    }
-    let queryString = "username=" + id("name").value +
-        "&title=" + id("post-title").value +
-        "&content=" + id("post-content").value +
-        "&topic=" + topic;
+    let queryString = "type=" + type +
+        "&updated=" + updated +
+        "&id=" + container.parentElement.parentElement.id;
 
     // Pass query information into server script for POST request
-    xhttp.open("POST", "../backend/new_post.php", true);
+    xhttp.open("POST", "../backend/increment_stats.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(queryString);
   }

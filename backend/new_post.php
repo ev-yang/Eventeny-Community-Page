@@ -1,5 +1,5 @@
 <?php
-// Create database
+// Get database
 $db = new SQLite3('community.db');
 
 // Prepare and bind
@@ -20,27 +20,29 @@ $content = $_POST["content"];
 $topic = $_POST["topic"];
 $stmt->execute();
 
-//if(!$results) {
-//    echo $db->lastErrorMsg();
-//} else {
-//    $posts = array();
-//    while ($row = $results->fetchArray()) {
-//        $post_data = array(
-//            "id" => $row["id"],
-//            "username" => $row["username"],
-//            "title" => $row["title"],
-//            "content" => $row["content"],
-//            "topic" => $row["topic"],
-//            "comments" => $row["comments"],
-//            "views" => $row["views"],
-//            "likes" => $row["likes"],
-//            "follows" => $row["follows"],
-//            "date" => $row["date"]
-//        );
-//        $postJSON = json_encode($post_data);
-//        array_push($posts, $postJSON);
-//    }
-//    return print_r($posts);
-//}
+// Get added post
+$results = $db->query("SELECT * FROM posts ORDER BY DATETIME(date) DESC LIMIT 1");
 
+if(!$results) {
+    echo $db->lastErrorMsg();
+} else {
+    $posts = array();
+    while ($row = $results->fetchArray()) {
+        $post_data = array(
+            "id" => $row["id"],
+            "username" => $row["username"],
+            "title" => $row["title"],
+            "content" => $row["content"],
+            "topic" => $row["topic"],
+            "comments" => $row["comments"],
+            "views" => $row["views"],
+            "likes" => $row["likes"],
+            "follows" => $row["follows"],
+            "date" => $row["date"]
+        );
+        $postJSON = json_encode($post_data);
+        array_push($posts, $postJSON);
+    }
+    return print_r($posts);
+}
 ?>
