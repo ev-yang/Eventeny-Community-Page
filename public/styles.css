@@ -98,10 +98,7 @@ button, .title, .comment {
 .card {
   background-color: #cae5ff;
   margin: 2vh;
-}
-
-.card {
-  font-size: 16pt;
+  font-size: 16px;
 }
 
 .card, .card div, .comment {
@@ -134,6 +131,7 @@ button, .title, .comment {
   font-size: 24px;
   padding: 0;
   margin: 0;
+  margin-right: 10px;
 }
 
 .title:hover {
@@ -143,7 +141,6 @@ button, .title, .comment {
 .card span.username {
   color: #0173be;
   font-size: 16px;
-  margin-left: 10px;
 }
 
 .topic {
@@ -193,6 +190,7 @@ button, .title, .comment {
   background-color: #e5ebf0;
   margin-left: auto;
   margin-right: auto;
+  margin: 2vh;
 }
 
 .comment h2 {
@@ -238,13 +236,19 @@ h2 {
 }
 
 #content input, #post-actions input, textarea {
-  width: 95%;
-  margin: 10px;
+  width: 94%;
+  margin: 15px;
   padding: 20px;
+}
+
+#post-actions label {
+  padding-left: 10px;
 }
 
 .content {
   margin-left: 15px;
+  margin-bottom: 40px;
+  font-size: 18px;
 }
 
 textarea {
@@ -258,7 +262,7 @@ input, textarea, button {
 
 #post-actions button, #flag-message {
   display: inline;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   margin-right: 4px;
 }
 

@@ -261,11 +261,13 @@
    * Let the user add their own comment under a post.
    */
   async function newComment() {
-    let newComment = formatResults(await addComment())[0];
-    console.log(newComment);
-    id("post-comments").prepend(generateComment(newComment));
-    id("new-comment").value = "";
-    id("comment-username").value = "";
+    if (id("comment-username").value.trim() !== "" && id("new-comment").value.trim() !== "") {
+      let newComment = formatResults(await addComment())[0];
+      console.log(newComment);
+      id("post-comments").prepend(generateComment(newComment));
+      id("new-comment").value = "";
+      id("comment-username").value = "";
+    }
   }
 
   /**
@@ -319,18 +321,32 @@
   }
 
   /**
-   * Submit a new post. After a delay of 2 seconds, return to homepage.
+   * If all fields are non-empty, submit a new post. After a delay of
+   * 2 seconds, return to homepage.
    */
   async function newPost() {
-    let newPost = formatResults(await addPost())[0];
-    id("home").prepend(generateCard(newPost));
-    setTimeout(showHomeView, DELAY);
+    let topics = document.getElementsByName("topic");
+    let topic = "";
+    for (let option of topics) {
+      if (option.checked) {
+        topic = option.value;
+        break;
+      }
+    }
+    let name = id("name").value.trim();
+    let title = id("post-title").value.trim();
+    let content = id("post-content").value.trim();
+    if (topic !== "" && name !== "" && title !== "" && content !== "") {
+      let newPost = formatResults(await addPost(topic, name, title, content))[0];
+      id("home").prepend(generateCard(newPost));
+      setTimeout(showHomeView, DELAY);
+    }
   }
 
   /**
    * Add new post to database
    */
-  function addPost() {
+  function addPost(topic, name, title, content) {
     return new Promise( function(resolve) {
       // Create object and set up request
       let xhttp = new XMLHttpRequest();
@@ -340,18 +356,10 @@
         }
       };
 
-      // Get new post information, build query string
-      let topics = document.getElementsByName("topic");
-      let topic = "";
-      for (let option of topics) {
-        if (option.checked) {
-          topic = option.value;
-          break;
-        }
-      }
-      let queryString = "username=" + id("name").value +
-          "&title=" + id("post-title").value +
-          "&content=" + id("post-content").value +
+      // Build query string
+      let queryString = "username=" + name +
+          "&title=" + title +
+          "&content=" + content +
           "&topic=" + topic;
 
       // Pass query information into server script for POST request
@@ -506,8 +514,8 @@
   function processFlag(post) {
     // get post information and build query string
     let id = post.id;
-    let title = post.querySelector("h2.title").textContent;
-    let content = post.querySelector("p.content").textContent;
+    let title = post.querySelector(".title").textContent;
+    let content = post.querySelector(".content").textContent;
     let queryString = "id=" + id +
       "&title=" + title +
       "&content=" + content;

@@ -1,4 +1,4 @@
-# Eventeny-Community-Page
+# Eventeny Community Page
 
 Community page for the Eventeny website.
 
