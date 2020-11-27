@@ -11,7 +11,7 @@ if (!$stmt) {
     echo $db->lastErrorMsg();
 }
 $stmt->bindParam(":updated", $updated);
-$stmt->bindParam(':id', $id);
+$stmt->bindParam(":id", $id);
 $stmt->execute();
 
 ?>

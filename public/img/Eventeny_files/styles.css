@@ -34,18 +34,13 @@ header h1, nav h2 {
 
 nav {
   display: flex;
-  margin-top: 30px;
-  margin-bottom: 50px;
+  margin: 30px;
   justify-content: center;
   align-items: center;
 }
 
 nav h2 {
   font-size: 18px;
-}
-
-nav input {
-  padding: 10px;
 }
 
 button {
@@ -56,7 +51,6 @@ button {
   font-size: 14px;
   font-weight: bold;
   background-color: #0cbab3;
-  font-family: 'Roboto Mono', monospace;
 }
 
 #new-btn, #cancel-btn, #post-btn {
@@ -85,6 +79,10 @@ button, .title, .comment {
   font-size: 16pt;
 }
 
+.card p.username {
+  color: #0173be;
+}
+
 .card, .card div, .comment {
   display: flex;
 }
@@ -106,6 +104,10 @@ button, .title, .comment {
   padding-left: 15px;
 }
 
+.card p {
+  margin: 0px;
+}
+
 .card:hover {
   transform: scale(1.005);
 }
@@ -113,27 +115,17 @@ button, .title, .comment {
 .title {
   font-weight: bold;
   font-size: 24px;
-  padding: 0;
-  margin: 0;
+  padding: 0px;
 }
 
 .title:hover {
   text-decoration: underline;
 }
 
-.title, .username {
-  display: inline-block;
-}
-
-.card p.username {
-  color: #0173be;
-}
-
 .topic {
   background-color: white;
   border-radius: 8px;
   padding: 10px;
-  display: inline-block;
 }
 
 .trackers {
@@ -146,6 +138,7 @@ button, .title, .comment {
 .trackers div {
   flex-direction: row;
   align-items: center;
+  margin-top: 10px;
 }
 
 .trackers img {
@@ -195,28 +188,18 @@ h2 {
   border-radius: 10px;
 }
 
-#content input, #post-actions input, textarea {
+#content input, #content textarea {
   width: 100%;
   margin: 10px;
   padding: 20px;
 }
 
-textarea {
-  height: 60px;
-}
-
-input, textarea, button {
-  font-family: 'Roboto Mono', monospace;
-  font-size: 16px;
+#content textarea {
+  height: 80px;
 }
 
 #post-actions button, #flag-message {
   display: inline;
-  margin-bottom: 20px;
-}
-
-#post-actions label {
-  margin-left: 10px;
 }
 
 #flag-message {

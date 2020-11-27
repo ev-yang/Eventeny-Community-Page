@@ -35,7 +35,6 @@
     });
     id("search-term").addEventListener("input", enableSearch);
     id("topic-btn").addEventListener("click", filterByTopic);
-    id("comment-btn").addEventListener("click", newComment);
     id("flag-btn").addEventListener("click", flagPost);
   }
 
@@ -173,8 +172,6 @@
     id("comments").classList.add("hidden");
     id("new").classList.add("hidden");
     id("name").value = "";
-    id("new-comment").value = "";
-    id("comment-username").value = "";
     id("post-title").value = "";
     id("post-content").value = "";
     let topics = document.getElementsByName("topic");
@@ -196,8 +193,6 @@
     id("search-term").value = "";
     id("home").classList.add("hidden");
     id("post-comments").innerHTML = "";
-    id("new-comment").value = "";
-    id("comment-username").value = "";
     id("comments").classList.add("hidden");
     id("new").classList.remove("hidden");
   }
@@ -210,8 +205,6 @@
     let thisPost = this.parentElement.parentElement;
     id("post-comments").innerHTML = "";
     id("search-term").value = "";
-    id("new-comment").value = "";
-    id("comment-username").value = "";
     let posts = qsa(".card");
     for (let post of posts) {
       if (post.id !== thisPost.id) {
@@ -251,43 +244,6 @@
     });
   }
 
-  /**
-   * Let the user add their own comment under a post.
-   */
-  async function newComment() {
-    let newComment = formatResults(await addComment())[0];
-    console.log(newComment);
-    id("post-comments").prepend(generateComment(newComment));
-    id("new-comment").value = "";
-    id("comment-username").value = "";
-  }
-
-  /**
-   * Add new comment to database
-   */
-  function addComment() {
-    return new Promise( function(resolve) {
-      // Create object and set up request
-      let xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-          resolve(this.responseText);
-        }
-      };
-
-      // Get new comment information, build query string
-      let parentID = getCurrentPost().id;
-      let username = id("comment-username").value;
-      let comment = id("new-comment").value;
-      let queryString = "id=" + parentID + "&username=" + username + "&content=" + comment;
-
-      // Pass query information into server script for POST request
-      xhttp.open("POST", "../backend/new_comment.php", true);
-      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhttp.send(queryString);
-    });
-  }
-
   function generateComment(comment) {
     let card = gen("article");
     card.classList.add("comment");
@@ -316,7 +272,7 @@
    * Submit a new post. After a delay of 2 seconds, return to homepage.
    */
   async function newPost() {
-    let newPost = formatResults(await addPost())[0];
+    let newPost = formatResults(await submitPost())[0];
     id("home").prepend(generateCard(newPost));
     setTimeout(showHomeView, DELAY);
   }
@@ -324,7 +280,8 @@
   /**
    * Add new post to database
    */
-  function addPost() {
+  function submitPost() {
+    // add to database
     return new Promise( function(resolve) {
       // Create object and set up request
       let xhttp = new XMLHttpRequest();
@@ -482,7 +439,13 @@
    */
   function flagPost() {
     // get flagged post
-    let flagged = getCurrentPost();
+    let flagged;
+    let posts = qsa(".card");
+    for (let post of posts) {
+      if (!post.classList.contains("hidden")) {
+        flagged = post;
+      }
+    }
 
     // add to database
     processFlag(flagged);
@@ -511,21 +474,6 @@
     xhttp.open("POST", "../backend/flag_post.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(queryString);
-  }
-
-  /**
-   * Gets current post being displayed.
-   */
-  function getCurrentPost() {
-    let current;
-    let posts = qsa(".card");
-    for (let post of posts) {
-      if (!post.classList.contains("hidden")) {
-        current = post;
-        break;
-      }
-    }
-    return current;
   }
 
   /**

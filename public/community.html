@@ -32,10 +32,10 @@
           <label for="filter-question">Questions</label>
           <input type="checkbox" id="filter-tips" value="tips" checked>
           <label for="filter-tips">Tips + resources</label>
-          <input type="checkbox" id="filter-planning" value="planning" checked>
-          <label for="filter-planning">Planning</label>
+          <input type="checkbox" id="filter-showcase" value="showcase" checked>
+          <label for="filter-showcase">Showcase</label>
           <input type="checkbox" id="filter-misc" value="misc" checked>
-          <label for="filter-misc">Miscellaneous</label>
+          <label for="filter-misc">Misc</label>
           <button id="topic-btn">Filter</button>
         </div>
         <input id="search-term" type="text">
@@ -49,19 +49,28 @@
 
       <!-- post view -->
       <section id="comments" class="hidden">
+        <section id="post-actions">
+          <button id="comment-btn">Post comment</button>
+          <button id="flag-btn">Flag this post</button>
+          <p id="flag-message" class="hidden">Post flagged successfully.</p><br>
+          <label for="comment-username">Your username:</label><br>
+          <input type="text" id="comment-username" autocomplete="off" required><br>
+          <label for="new-comment">Write a comment:</label>
+          <textarea id="new-comment" autocomplete="off" required></textarea>
+        </section>
+        <section id="post-comments"></section>
       </section>
 
       <!-- new post view -->
       <section id="new" class="hidden">
         <form>
           <div id="content">
-            <h2>New post:</h2><br>
             <label for="name">Your username:</label>
             <input type="text" id="name" autocomplete="off" required><br>
             <label for="post-title">Post title:</label>
             <input type="text" id="post-title" autocomplete="off" required><br>
             <label for="post-content">Post content:</label>
-            <textarea id="post-content" autocomplete="off"  required></textarea>
+            <textarea id="post-content" autocomplete="off" required></textarea>
           </div>
           <div id="topic">
             <h3>Select post topic:</h3>
@@ -69,10 +78,10 @@
             <label for="choose-question">Questions</label>
             <input type="radio" id="choose-tips" name="topic" value="tips + resources">
             <label for="choose-tips">Tips + resources</label>
-            <input type="radio" id="choose-planning" name="topic" value="planning">
-            <label for="choose-planning">Planning</label>
+            <input type="radio" id="choose-showcase" name="topic" value="showcase">
+            <label for="choose-showcase">Showcase</label>
             <input type="radio" id="choose-misc" name="topic" value="miscellaneous">
-            <label for="choose-misc">Miscellaneous</label><br>
+            <label for="choose-misc">Misc</label><br>
             <button id="cancel-btn">Cancel</button>
             <button id="post-btn">Post!</button>
           </div>
