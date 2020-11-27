@@ -13,3 +13,5 @@ if (!$stmt) {
 $stmt->bindParam(":updated", $updated);
 $stmt->bindParam(':id', $id);
 $stmt->execute();
+
+?>

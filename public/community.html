@@ -26,16 +26,18 @@
       <nav>
         <button id="home-btn">Home</button>
         <button id="new-btn">New post</button>
-        <h2>Topics:</h2>
-        <input type="checkbox" id="filter-question" value="question">
-        <label for="filter-question">Questions</label>
-        <input type="checkbox" id="filter-tips" value="tips">
-        <label for="filter-tips">Tips + resources</label>
-        <input type="checkbox" id="filter-planning" value="planning">
-        <label for="filter-planning">Planning</label>
-        <input type="checkbox" id="filter-misc" name="vehicle3" value="misc">
-        <label for="filter-misc">Miscellaneous</label>
-        <button>Filter</button>
+        <div id="topic-filter">
+          <h2>Topics:</h2>
+          <input type="checkbox" id="filter-question" value="question" checked>
+          <label for="filter-question">Questions</label>
+          <input type="checkbox" id="filter-tips" value="tips" checked>
+          <label for="filter-tips">Tips + resources</label>
+          <input type="checkbox" id="filter-planning" value="planning" checked>
+          <label for="filter-planning">Planning</label>
+          <input type="checkbox" id="filter-misc" value="misc" checked>
+          <label for="filter-misc">Miscellaneous</label>
+          <button id="topic-btn">Filter</button>
+        </div>
         <input id="search-term" type="text">
         <button id="search-btn" disabled>Search</button>
       </nav>

@@ -33,6 +33,8 @@
       event.preventDefault();
       newPost();
     });
+    id("search-term").addEventListener("input", enableSearch);
+    id("topic-btn").addEventListener("click", filterByTopic);
   }
 
   async function displayPosts() {
@@ -50,7 +52,7 @@
           resolve(this.responseText);
         }
       };
-      xhttp.open("GET", "../backend/get_all.php");
+      xhttp.open("GET", "../backend/get_all.php", true);
       xhttp.send();
     });
   }
@@ -163,6 +165,7 @@
    * Show home view.
    */
   function showHomeView() {
+    id("search-term").value = "";
     id("comments").innerHTML = "";
     id("comments").classList.add("hidden");
     id("new").classList.add("hidden");
@@ -185,6 +188,7 @@
    * Show new post screen.
    */
   function showNewPostView() {
+    id("search-term").value = "";
     id("home").classList.add("hidden");
     id("comments").innerHTML = "";
     id("comments").classList.add("hidden");
@@ -196,6 +200,7 @@
    */
   function showPostView() {
     // hide everything except clicked post
+    id("search-term").value = "";
     let posts = qsa(".card");
     for (let post of posts) {
       if (post.id !== this.parentElement.parentElement.id) {
@@ -281,13 +286,115 @@
     xhttp.send(queryString);
   }
 
+  /**
+   * Filters through posts based on the selected topic(s).
+   */
+  async function filterByTopic() {
+    // get selected topic(s)
+    let selectedTopics = [];
+    let topics = qsa("#topic-filter input");
+    for (let topic of topics) {
+      if (topic.checked) selectedTopics.push(topic.value);
+    }
+
+    // get ids of posts from database for each topic and display results
+    let results = [];
+    for (let topic of selectedTopics) {
+      let matches = formatResults(await getTopic(topic));
+      results = results.concat(matches);
+    }
+    displaySearchResults(results);
+  }
+
+  /**
+   * Gets IDs of posts matching the given topic
+   */
+  function getTopic(topic) {
+    return new Promise( function(resolve) {
+      // Create object and set up request
+      let xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          resolve(this.responseText);
+        }
+      };
+
+      // Pass query information into server script for GET request
+      let queryString = "?topic=" + topic;
+      xhttp.open("GET", "../backend/filter_topic.php" + queryString, true);
+      xhttp.send();
+    });
+  }
+
+  /**
+   * Enables search button if there is something in the search bar.
+   */
+  function enableSearch() {
+    if (id("search-term").value.trim() !== "") {
+      id("search-btn").disabled = false;
+      id("search-btn").addEventListener("click", searchPosts);
+    }
+  }
+
+  /**
+   * Search through posts for the term in the search bar. Displays search results
+   * and hides everything else.
+   */
+  async function searchPosts() {
+    let searchTerm = id("search-term").value.trim();
+    showHomeView();
+    let results = formatResults(await getSearchResults(searchTerm));
+    displaySearchResults(results);
+  }
+
+  /**
+   * Gets IDs of posts matching the given search term
+   */
+  function getSearchResults(term) {
+    return new Promise( function(resolve) {
+      // Create object and set up request
+      let xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          resolve(this.responseText);
+        }
+      };
+
+      // Pass query information into server script for GET request
+      let queryString = "?term=" + term;
+      xhttp.open("GET", "../backend/search.php" + queryString, true);
+      xhttp.send();
+    });
+  }
+
+  /**
+   * Displays search results.
+   */
+  function displaySearchResults(results) {
+    let wanted = [];
+    for (let result of results) {
+      wanted.push(result["id"].toString());
+    }
+    let allPosts = qsa(".card");
+    for (let post of allPosts) {
+      if (wanted.length === 0 || !wanted.includes(post.id)) {
+        post.classList.add("hidden");
+      } else {
+        post.classList.remove("hidden");
+      }
+    }
+  }
+
   // helper functions
   /**
-   * Turns PHP array into JSON array
+   * Turns PHP array into JSON array.
    */
   function formatResults(arr) {
     let formatter = arr.split(" => ");
     let posts = [];
+    if (formatter.length <= 1) {
+      return posts;
+    }
     for (let i = 1; i < formatter.length - 1; i++) {
       posts.push(JSON.parse(formatter[i].substring(0, formatter[i].length - 3)));
     }
