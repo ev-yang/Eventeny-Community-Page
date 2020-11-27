@@ -1,6 +1,6 @@
 # Eventeny-Community-Page
 
-Community page for the Eventeny website
+Community page for the Eventeny website.
 
 ## Setup
 * Clone the repository onto your local machine.
