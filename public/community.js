@@ -91,15 +91,22 @@
     topic.classList.add("topic");
 
     // title
-    let title = gen("h2");
+    let title = gen("span");
     title.textContent = post["title"];
     title.classList.add("title");
     title.addEventListener("click", showPostView);
 
     // username
-    let individual = gen("p");
+    let individual = gen("span");
     individual.textContent = post["username"];
     individual.classList.add("username");
+    title.appendChild(individual);
+
+    // title and username
+    let heading = gen("h2");
+    heading.classList.add("heading");
+    heading.appendChild(title);
+    heading.appendChild(individual);
 
     // content
     let content = gen("p");
@@ -108,8 +115,7 @@
     content.classList.add("hidden");
 
     postContent.appendChild(topic);
-    postContent.appendChild(title);
-    postContent.appendChild(individual);
+    postContent.appendChild(heading);
     postContent.appendChild(content);
     return postContent;
   }
@@ -207,7 +213,7 @@
    */
   async function showPostView() {
     // hide everything except clicked post
-    let thisPost = this.parentElement.parentElement;
+    let thisPost = this.parentElement.parentElement.parentElement;
     id("post-comments").innerHTML = "";
     id("search-term").value = "";
     id("new-comment").value = "";
@@ -222,7 +228,7 @@
     thisPost.querySelector(".content").classList.remove("hidden");
 
     // increment views
-    let viewCounter = this.parentElement.parentElement.querySelector(".views");
+    let viewCounter = thisPost.querySelector(".views");
     incrementStats(viewCounter, "views");
 
     // display comments

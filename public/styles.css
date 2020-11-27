@@ -9,7 +9,7 @@
 */
 
 body {
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Work Sans', sans-serif;
   margin: 30px;
   padding: 20px;
 }
@@ -23,8 +23,15 @@ header {
 }
 
 header img {
+  float: left;
+  margin-left: 20px;
   height: 20px;
   width: auto;
+  margin-top: 5px;
+}
+
+header h1 {
+  padding-right: 100px;
 }
 
 header h1, nav h2 {
@@ -35,7 +42,7 @@ header h1, nav h2 {
 nav {
   display: flex;
   margin-top: 30px;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
   justify-content: center;
   align-items: center;
 }
@@ -59,17 +66,28 @@ button {
   font-family: 'Roboto Mono', monospace;
 }
 
-#new-btn, #cancel-btn, #post-btn {
+#new-btn, #cancel-btn, #post-btn, #comment-btn {
   background-color: #84eed1;
 }
 
-button:hover, #new-btn:hover, #cancel-btn:hover, #post-btn:hover {
+#topic-btn {
+  margin-left: 20px;
+}
+
+button:hover, #comment-btn:hover {
   background-color: #e5ebf0;
+}
+
+#new-btn:hover,  #cancel-btn:hover, #post-btn:hover {
+  background-color: #cae5ff;
 }
 
 button, .card, .comment {
   padding: 2.5vh;
   border-radius: 10px;
+}
+
+button, .comment {
   margin: 1.5vh;
 }
 
@@ -79,6 +97,7 @@ button, .title, .comment {
 
 .card {
   background-color: #cae5ff;
+  margin: 2vh;
 }
 
 .card {
@@ -121,19 +140,23 @@ button, .title, .comment {
   text-decoration: underline;
 }
 
-.title, .username {
-  display: inline-block;
-}
-
-.card p.username {
+.card span.username {
   color: #0173be;
+  font-size: 16px;
+  margin-left: 10px;
 }
 
 .topic {
+  margin-top: 0;
   background-color: white;
   border-radius: 8px;
   padding: 10px;
   display: inline-block;
+  width: fit-content;
+  font-size: 18px;
+  margin-left: 15px;
+  margin-bottom: 5px;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .trackers {
@@ -152,10 +175,18 @@ button, .title, .comment {
   height: 2vh;
   margin-right: 4px;
   cursor: pointer;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .trackers img:hover {
   transform: scale(1.1);
+}
+
+.trackers p {
+  margin-top: 10px;
+  margin-bottom: 0;
+  margin-left: 5px;
 }
 
 .comment {
@@ -189,16 +220,31 @@ h2 {
   justify-content: center;
   background-color: #e5ebf0;
   width: 70%;
-  padding-top: 30px;
+  padding-top: 50px;
+  padding-bottom: 50px;
   margin-left: auto;
   margin-right: auto;
   border-radius: 10px;
 }
 
+#new button {
+  margin: 50px 15px 15px;
+  width: 50%;
+}
+
+#new-post-actions {
+  display: flex;
+  justify-content: center;
+}
+
 #content input, #post-actions input, textarea {
-  width: 100%;
+  width: 95%;
   margin: 10px;
   padding: 20px;
+}
+
+.content {
+  margin-left: 15px;
 }
 
 textarea {
@@ -213,6 +259,7 @@ input, textarea, button {
 #post-actions button, #flag-message {
   display: inline;
   margin-bottom: 20px;
+  margin-right: 4px;
 }
 
 #post-actions label {
