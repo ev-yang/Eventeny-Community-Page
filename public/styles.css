@@ -89,7 +89,7 @@ button:hover, #comment-btn:hover, .comment, #new {
   background-color: #e5ebf0;
 }
 
-#new-btn:hover, #cancel-btn:hover, #post-btn:hover, .card, #new.submitted-form {
+#new-btn:hover, #cancel-btn:hover, #post-btn:hover, .card {
   background-color: #cae5ff;
 }
 

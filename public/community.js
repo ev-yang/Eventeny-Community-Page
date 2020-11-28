@@ -372,11 +372,7 @@
     if (topic !== "" && name !== "" && title !== "" && content !== "") {
       let newPost = formatResults(await addPost(topic, name, title, content))[0];
       id("home").prepend(generateCard(newPost));
-      id("new").classList.add("submitted-form");
-      setTimeout(() => {
-        showHomeView();
-        id("new").classList.remove("submitted-form");
-      }, DELAY);
+      setTimeout(showHomeView, DELAY);
     }
   }
 
