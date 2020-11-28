@@ -491,6 +491,10 @@
    * matching the search term and hides everything else.
    */
   async function searchPosts() {
+    let topics = qsa("#topic-filter input");
+    for (let topic of topics) {
+      topic.checked = true;
+    }
     let searchTerm = id("search-term").value.trim();
     showHomeView();
     let results = formatResults(await getSearchResults(searchTerm));
