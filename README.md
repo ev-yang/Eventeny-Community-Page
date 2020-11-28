@@ -18,6 +18,7 @@ content contains the given search term(s).
 
 ## Individual post view
 * Click on a post's title to see its content and comments.
+* When a post is clicked, its view counter is incremented by 1.
 * Click `Flag this post` to flag a post. If successful, a success message will
 appear for 2 seconds.
 * Type into the username and comment fields and click `Post comment` to post
@@ -28,4 +29,4 @@ a comment under the original post.
 * Fill out the fields and choose a topic.
 * Click `Cancel` to return to the homepage and discard the draft.
 * Click `Post!` to post. After a 2 second delay, you will return to the homepage
-which now includes your new post.
+which now includes the new post.
