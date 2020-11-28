@@ -12,7 +12,6 @@
 
 (function() {
 
-  // Delay before returning to homepage after making new yip.
   const DELAY = 2000;
 
   window.addEventListener("load", init);
@@ -39,6 +38,9 @@
     id("flag-btn").addEventListener("click", flagPost);
   }
 
+  /**
+   * Gets all posts and displays them on the homepage.
+   */
   async function displayPosts() {
     let posts = formatResults(await getAllPosts());
     for (let post of posts) {
@@ -46,6 +48,10 @@
     }
   }
 
+  /**
+   * Gets all posts from database.
+   * @return {Promise} Unformatted array of all posts.
+   */
   function getAllPosts() {
     return new Promise( function(resolve) {
       let xhttp = new XMLHttpRequest();
@@ -61,6 +67,8 @@
 
   /**
    * Creates display card for a post.
+   * @param {object} post - JSON of post information.
+   * @return {object} DOM object of the display card.
    */
   function generateCard(post) {
     let card = gen("article");
@@ -75,6 +83,11 @@
     return card;
   }
 
+  /**
+   * Creates profile image part of the post card.
+   * @param {object} post - JSON of post information.
+   * @return {object} DOM object of profile image.
+   */
   function postProfilePic(post) {
     let image = gen("img");
     image.src = "img/user.jpg";
@@ -82,6 +95,11 @@
     return image;
   }
 
+  /**
+   * Creates topic, title, and content parts of the post card.
+   * @param {object} post - JSON of post information.
+   * @return {object} DOM object of post topic, title, and content.
+   */
   function postContent(post) {
     let postContent = gen("div");
 
@@ -120,6 +138,11 @@
     return postContent;
   }
 
+  /**
+   * Creates post date and stats trackers.
+   * @param {object} post - JSON of post information.
+   * @return {object} DOM object of post date and trackers.
+   */
   function postInformation(post) {
     let postInfo = gen("div");
     postInfo.classList.add("trackers");
@@ -171,7 +194,7 @@
   }
 
   /**
-   * Show home view.
+   * Show homepage with all posts.
    */
   function showHomeView() {
     id("search-term").value = "";
@@ -240,6 +263,11 @@
     id("comments").classList.remove("hidden");
   }
 
+  /**
+   * Gets all comments for the post with the given ID.
+   * @param {int} id - ID of the parent post.
+   * @returns {Promise} Array of comment information.
+   */
   async function getComments(id) {
     return new Promise( function(resolve) {
       // Create object and set up request
@@ -258,7 +286,7 @@
   }
 
   /**
-   * Let the user add their own comment under a post.
+   * Adds a new comment under the current post.
    */
   async function newComment() {
     if (id("comment-username").value.trim() !== "" && id("new-comment").value.trim() !== "") {
@@ -271,11 +299,11 @@
   }
 
   /**
-   * Add new comment to database
+   * Add new comment to database.
+   * @returns {Promise} Array of new comment information.
    */
   function addComment() {
     return new Promise( function(resolve) {
-      // Create object and set up request
       let xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
@@ -296,20 +324,25 @@
     });
   }
 
+  /**
+   * Creates display card for the given comment.
+   * @param {object[]} comment - JSON array of comment information.
+   * @returns {object} DOM object for the new comment card.
+   */
   function generateComment(comment) {
     let card = gen("article");
     card.classList.add("comment");
     card.id = comment["id"];
 
-    // username
+    // Username
     let username = gen("h2");
     username.textContent = comment["username"];
 
-    // comment content
+    // Content
     let content = gen("p");
     content.textContent = comment["content"];
 
-    // date
+    // Date
     let date = gen("p");
     date.classList.add("date");
     date.textContent = new Date(comment["date"]).toDateString();
@@ -339,12 +372,21 @@
     if (topic !== "" && name !== "" && title !== "" && content !== "") {
       let newPost = formatResults(await addPost(topic, name, title, content))[0];
       id("home").prepend(generateCard(newPost));
-      setTimeout(showHomeView, DELAY);
+      id("new").classList.add("submitted-form");
+      setTimeout(() => {
+        showHomeView();
+        id("new").classList.remove("submitted-form");
+      }, DELAY);
     }
   }
 
   /**
-   * Add new post to database
+   * Adds a new post with the given information to the database.
+   * @param {String} topic - Topic of the new post.
+   * @param {String} name - Name of the user making the new post.
+   * @param {String} title - Title of the new post.
+   * @param {String} content - Content of the new post.
+   * @returns {Promise} Array of new post information.
    */
   function addPost(topic, name, title, content) {
     return new Promise( function(resolve) {
@@ -370,7 +412,7 @@
   }
 
   /**
-   * Increment the given stats on the post by one.
+   * Increment the given type of stats (likes or follows) on the post by one.
    * @param {object} container - DOM object holding all stats
    * @param {String} type - whether we are incrementing likes or follows
    */
@@ -393,17 +435,18 @@
   }
 
   /**
-   * Filters through posts based on the selected topic(s).
+   * Filters through posts based on the selected topic(s) and displays the
+   * matching posts.
    */
   async function filterByTopic() {
-    // get selected topic(s)
+    // Get selected topic(s)
     let selectedTopics = [];
     let topics = qsa("#topic-filter input");
     for (let topic of topics) {
       if (topic.checked) selectedTopics.push(topic.value);
     }
 
-    // get ids of posts from database for each topic and display results
+    // Get ids of posts from database for each topic and display results
     let results = [];
     for (let topic of selectedTopics) {
       let matches = formatResults(await getTopic(topic));
@@ -413,7 +456,9 @@
   }
 
   /**
-   * Gets IDs of posts matching the given topic
+   * Gets IDs of posts matching the given topic.
+   * @param {String} topic - Topic of post to look for.
+   * @returns {Promise} Array of JSON of IDs of posts matching the  given topic.
    */
   function getTopic(topic) {
     return new Promise( function(resolve) {
@@ -433,18 +478,21 @@
   }
 
   /**
-   * Enables search button if there is something in the search bar.
+   * Enables search button if there is something in the search bar apart
+   * from white space.
    */
   function enableSearch() {
     if (id("search-term").value.trim() !== "") {
       id("search-btn").disabled = false;
       id("search-btn").addEventListener("click", searchPosts);
+    } else {
+      id("search-btn").disabled = true;
     }
   }
 
   /**
-   * Search through posts for the term in the search bar. Displays search results
-   * and hides everything else.
+   * Search through posts for the term in the search bar. Displays posts
+   * matching the search term and hides everything else.
    */
   async function searchPosts() {
     let searchTerm = id("search-term").value.trim();
@@ -454,7 +502,9 @@
   }
 
   /**
-   * Gets IDs of posts matching the given search term
+   * Gets IDs of posts matching the given search term.
+   * @param {String} term - Search term.
+   * @returns {Promise} Array of JSON of IDs matching the given search term.
    */
   function getSearchResults(term) {
     return new Promise( function(resolve) {
@@ -474,7 +524,8 @@
   }
 
   /**
-   * Displays search results.
+   * Displays the posts with the given IDs.
+   * @param {object[]} results - JSON array of post IDs.
    */
   function displaySearchResults(results) {
     let wanted = [];
@@ -492,16 +543,11 @@
   }
 
   /**
-   * Mark a post as flagged.
+   * Mark a post as flagged and display a success message for 2 seconds.
    */
   function flagPost() {
-    // get flagged post
     let flagged = getCurrentPost();
-
-    // add to database
     processFlag(flagged);
-
-    // display message
     id("flag-message").classList.remove("hidden");
     setTimeout(() => {
       id("flag-message").classList.add("hidden");
@@ -510,6 +556,7 @@
 
   /**
    * Add flagged post to database.
+   * @param {object} post - JSON of post information.
    */
   function processFlag(post) {
     // get post information and build query string
@@ -529,6 +576,7 @@
 
   /**
    * Gets current post being displayed.
+   * @returns {object} - DOM object of post being displayed.
    */
   function getCurrentPost() {
     let current;
@@ -544,6 +592,8 @@
 
   /**
    * Turns PHP array into JSON array.
+   * @param {String} arr - Original unformatted array.
+   * @return {object[]} Formatted JSON array.
    */
   function formatResults(arr) {
     let formatter = arr.split(" => ");
@@ -554,22 +604,9 @@
     for (let i = 1; i < formatter.length - 1; i++) {
       posts.push(JSON.parse(formatter[i].substring(0, formatter[i].length - 3)));
     }
-    posts.push(JSON.parse(formatter[formatter.length - 1].substring(0, formatter[formatter.length - 1].length - 2)));
+    posts.push(JSON.parse(formatter[formatter.length - 1]
+      .substring(0, formatter[formatter.length - 1].length - 2)));
     return posts;
-  }
-
-  /**
-   * Hides the display, disables all buttons, and shows an error message.
-   */
-  function handleError(err) {
-    id("home").classList.add("hidden");
-    id("post").classList.add("hidden");
-    id("new").classList.add("hidden");
-    id("error").textContent = err;
-    id("error").classList.remove("hidden");
-    id("search-btn").disabled = true;
-    id("home-btn").disabled = true;
-    id("new-btn").disabled = true;
   }
 
   /**
@@ -579,15 +616,6 @@
    */
   function id(idName) {
     return document.getElementById(idName);
-  }
-
-  /**
-   * Returns the first DOM object that matches the given selector.
-   * @param {string} selector - query selector.
-   * @returns {object} The first DOM object matching the query.
-   */
-  function qs(selector) {
-    return document.querySelector(selector);
   }
 
   /**

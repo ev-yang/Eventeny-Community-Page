@@ -1,3 +1,13 @@
+<!--
+  Evelyn Yang
+  Eventeny Community Page
+  November 25, 2020
+
+  This is the new_post.php file for the Eventeny community page.
+  It inserts a new post with the given information into the "posts"
+  table in the database and provides an array of the new post information.
+-->
+
 <?php
 // Get database
 $db = new SQLite3('community.db');

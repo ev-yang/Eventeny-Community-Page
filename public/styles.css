@@ -11,6 +11,9 @@
 body {
   font-family: 'Work Sans', sans-serif;
   margin: 30px;
+}
+
+body, #content input, #post-actions input, textarea {
   padding: 20px;
 }
 
@@ -24,66 +27,77 @@ header {
 
 header img {
   float: left;
-  margin-left: 20px;
   height: 20px;
   width: auto;
-  margin-top: 5px;
+  margin-top: 7px;
+}
+
+header img, #topic-btn, .comment p {
+  margin-left: 20px;
 }
 
 header h1 {
-  padding-right: 100px;
+  padding-right: 120px;
 }
 
-header h1, nav h2 {
-  display: inline;
+header h1, nav h2, .comment h2, .card span.username {
   color: #0173be;
 }
 
+header h1, nav h2, #post-actions button, #flag-message {
+  display: inline;
+}
+
 nav {
-  display: flex;
   margin-top: 30px;
   margin-bottom: 40px;
-  justify-content: center;
-  align-items: center;
 }
 
 nav h2 {
-  font-size: 18px;
+  font-size: 20px;
 }
 
-nav input {
+nav input, button, .topic {
   padding: 10px;
+}
+
+nav, .card, .trackers div {
+  align-items: center;
 }
 
 button {
-  margin: 10px;
-  padding: 10px;
   outline: none;
   border: none;
   font-size: 14px;
-  font-weight: bold;
   background-color: #0cbab3;
-  font-family: 'Roboto Mono', monospace;
+  box-shadow: 2px 2px #0b9e99;
+}
+
+button, .card > img, #flag-message {
+  margin: 10px;
 }
 
 #new-btn, #cancel-btn, #post-btn, #comment-btn {
   background-color: #84eed1;
 }
 
-#topic-btn {
-  margin-left: 20px;
+button:hover, #comment-btn:hover {
+  box-shadow: 2px 2px #a7bcc9
 }
 
-button:hover, #comment-btn:hover {
+button:hover, #comment-btn:hover, .comment, #new {
   background-color: #e5ebf0;
 }
 
-#new-btn:hover,  #cancel-btn:hover, #post-btn:hover {
+#new-btn:hover, #cancel-btn:hover, #post-btn:hover, .card, #new.submitted-form {
   background-color: #cae5ff;
 }
 
 button, .card, .comment {
   padding: 2.5vh;
+}
+
+button, .card, .comment, #new {
   border-radius: 10px;
 }
 
@@ -91,89 +105,98 @@ button, .comment {
   margin: 1.5vh;
 }
 
-button, .title, .comment {
+button, .title, .comment, .trackers img {
   cursor: pointer;
 }
 
 .card {
-  background-color: #cae5ff;
-  margin: 2vh;
-  font-size: 16px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  box-shadow: 2px 2px #a7bcc9;
 }
 
-.card, .card div, .comment {
+.card, .comment {
+  margin: 2vh;
+}
+
+.card, .card div, .comment, nav, #new, #new-post-actions {
   display: flex;
 }
 
 .card img, .comment img {
   padding: 1vh;
-  background-color: white;
   border-radius: 50%;
+}
+
+.card img, .comment img, .topic {
+  background-color: white;
 }
 
 .card > img {
   height: 14vh;
-  margin: 10px;
 }
 
 .card > div {
   flex-direction: column;
-  justify-content: center;
-  padding-left: 15px;
 }
 
 .card:hover {
   transform: scale(1.005);
 }
 
+.card:active, button:active {
+  box-shadow: 2px 1px #a7bcc9;
+  transform: translateY(1px);
+}
+
 .title {
-  font-weight: bold;
   font-size: 24px;
   padding: 0;
   margin: 0;
   margin-right: 10px;
 }
 
+.title, button {
+  font-weight: bold;
+}
+
 .title:hover {
   text-decoration: underline;
 }
 
-.card span.username {
-  color: #0173be;
+.card, .card span.username, .trackers, .comment p, input, textarea, button {
   font-size: 16px;
 }
 
 .topic {
-  margin-top: 0;
-  background-color: white;
   border-radius: 8px;
-  padding: 10px;
   display: inline-block;
   width: fit-content;
-  font-size: 18px;
-  margin-left: 15px;
   margin-bottom: 5px;
-  font-family: 'Roboto Mono', monospace;
+}
+
+.topic, .comment h2, h2, .content {
+  font-size: 18px;
 }
 
 .trackers {
-  margin-left: auto;
-  padding-right: 10px;
-  font-size: 16px;
   flex: 0 0 13%;
+}
+
+.trackers, .comment p.date {
+  padding-right: 10px;
 }
 
 .trackers div {
   flex-direction: row;
-  align-items: center;
 }
 
 .trackers img {
   height: 2vh;
-  margin-right: 4px;
-  cursor: pointer;
+}
+
+.trackers img, .trackers p {
   margin-top: 10px;
-  margin-left: 10px;
 }
 
 .trackers img:hover {
@@ -181,48 +204,26 @@ button, .title, .comment {
 }
 
 .trackers p {
-  margin-top: 10px;
   margin-bottom: 0;
   margin-left: 5px;
 }
 
-.comment {
-  background-color: #e5ebf0;
+.trackers, .comment, .comment p.date, #new {
   margin-left: auto;
+}
+
+.comment, #new {
   margin-right: auto;
-  margin: 2vh;
 }
 
-.comment h2 {
-  color: #0173be;
-  font-size: 16px;
-}
-
-.comment p {
-  margin-left: 20px;
-  font-size: 14px;
-}
-
-.comment p.date {
-  margin-left: auto;
-  padding-right: 10px;
-}
-
-h2 {
-  font-size: 18pt;
+h2, .card > div {
   padding-left: 15px;
 }
 
 #new {
-  display: flex;
-  justify-content: center;
-  background-color: #e5ebf0;
   width: 70%;
   padding-top: 50px;
   padding-bottom: 50px;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 10px;
 }
 
 #new button {
@@ -230,47 +231,43 @@ h2 {
   width: 50%;
 }
 
-#new-post-actions {
-  display: flex;
+#new-post-actions, nav, #new, .card > div {
   justify-content: center;
 }
 
 #content input, #post-actions input, textarea {
   width: 94%;
   margin: 15px;
-  padding: 20px;
 }
 
 #post-actions label {
   padding-left: 10px;
 }
 
-.content {
+.content, .topic {
   margin-left: 15px;
-  margin-bottom: 40px;
-  font-size: 18px;
 }
 
 textarea {
   height: 60px;
 }
 
-input, textarea, button {
+input, textarea, button, .topic {
   font-family: 'Roboto Mono', monospace;
-  font-size: 16px;
 }
 
 #post-actions button, #flag-message {
-  display: inline;
   margin-bottom: 30px;
+}
+
+#post-actions button, #flag-message, .trackers img {
   margin-right: 4px;
 }
 
-#post-actions label {
+#post-actions label, .trackers img {
   margin-left: 10px;
 }
 
 #flag-message {
   color: #bc434f;
-  margin: 10px;
 }

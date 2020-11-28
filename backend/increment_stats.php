@@ -1,3 +1,12 @@
+<!--
+  Evelyn Yang
+  Eventeny Community Page
+  November 25, 2020
+
+  This is the increment_stats.php file for the Eventeny community page.
+  It increments the given type of statistic of the given post by one.
+-->
+
 <?php
 // Get database
 $db = new SQLite3('community.db');
@@ -13,5 +22,4 @@ if (!$stmt) {
 $stmt->bindParam(":updated", $updated);
 $stmt->bindParam(":id", $id);
 $stmt->execute();
-
 ?>

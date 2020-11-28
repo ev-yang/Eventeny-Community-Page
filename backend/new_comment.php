@@ -1,3 +1,13 @@
+<!--
+  Evelyn Yang
+  Eventeny Community Page
+  November 25, 2020
+
+  This is the new_comment.php file for the Eventeny community page.
+  It adds a new comment with the given information to the "comments" table
+  in the database and provides an array of the new comment information.
+-->
+
 <?php
 // Get database
 $db = new SQLite3('community.db');

@@ -1,3 +1,13 @@
+<!--
+  Evelyn Yang
+  Eventeny Community Page
+  November 25, 2020
+
+  This is the get_all.php file for the Eventeny community page.
+  It gets all posts from the database and provides an array of each
+  post's information.
+-->
+
 <?php
 // Get database
 $db = new SQLite3('community.db');
@@ -42,5 +52,4 @@ if(!$results) {
     }
     return print_r($posts);
 }
-
 ?>

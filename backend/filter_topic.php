@@ -1,3 +1,13 @@
+<!--
+  Evelyn Yang
+  Eventeny Community Page
+  November 25, 2020
+
+  This is the filter_topic.php file for the Eventeny community page.
+  It selects the IDs of all posts matching a given topic and provides
+  an array of those IDs.
+-->
+
 <?php
 // Get database
 $db = new SQLite3('community.db');
@@ -19,5 +29,4 @@ if(!$results) {
     }
     return print_r($posts);
 }
-
 ?>

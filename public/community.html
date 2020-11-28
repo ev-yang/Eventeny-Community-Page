@@ -7,13 +7,14 @@
   It contains the structure of the webpage, including post cards,
   search/filtering options, and a new post page.
 -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Eventeny</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap">
     <link rel="stylesheet" href="styles.css">
     <script src="community.js"></script>
   </head>
@@ -31,7 +32,7 @@
           <input type="checkbox" id="filter-question" value="question" checked>
           <label for="filter-question">Questions</label>
           <input type="checkbox" id="filter-tips" value="tips" checked>
-          <label for="filter-tips">Tips + resources</label>
+          <label for="filter-tips">Tips and resources</label>
           <input type="checkbox" id="filter-showcase" value="showcase" checked>
           <label for="filter-showcase">Showcase</label>
           <input type="checkbox" id="filter-misc" value="misc" checked>
@@ -76,8 +77,8 @@
             <h3>Select post topic:</h3>
             <input type="radio" id="choose-question" name="topic" value="questions">
             <label for="choose-question">Questions</label>
-            <input type="radio" id="choose-tips" name="topic" value="tips + resources">
-            <label for="choose-tips">Tips + resources</label>
+            <input type="radio" id="choose-tips" name="topic" value="tips and resources">
+            <label for="choose-tips">Tips and resources</label>
             <input type="radio" id="choose-showcase" name="topic" value="showcase">
             <label for="choose-showcase">Showcase</label>
             <input type="radio" id="choose-misc" name="topic" value="miscellaneous">
@@ -89,8 +90,6 @@
           </div>
         </form>
       </section>
-      <!-- error view -->
-      <h2 id="error" class="hidden"></h2>
     </main>
   </body>
 </html>
