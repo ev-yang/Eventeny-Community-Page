@@ -206,6 +206,10 @@
     id("comment-username").value = "";
     id("post-title").value = "";
     id("post-content").value = "";
+    let filter = qsa("#topic-filter input");
+    for (let topic of filter) {
+      topic.checked = true;
+    }
     let topics = document.getElementsByName("topic");
     for (let option of topics) {
       option.checked = false;
@@ -491,10 +495,7 @@
    * matching the search term and hides everything else.
    */
   async function searchPosts() {
-    let topics = qsa("#topic-filter input");
-    for (let topic of topics) {
-      topic.checked = true;
-    }
+    checkAllTopics();
     let searchTerm = id("search-term").value.trim();
     showHomeView();
     let results = formatResults(await getSearchResults(searchTerm));
@@ -539,6 +540,16 @@
       } else {
         post.classList.remove("hidden");
       }
+    }
+  }
+
+  /**
+   * Check all filter topic options.
+   */
+  function checkAllTopics() {
+    let topics = qsa("#topic-filter input");
+    for (let topic of topics) {
+      topic.checked = true;
     }
   }
 
